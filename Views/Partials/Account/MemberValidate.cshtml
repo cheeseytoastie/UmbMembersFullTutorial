@@ -1,0 +1,9 @@
+﻿@model UmbracoMembers.Models.MemberValidateModel
+
+@using (Html.BeginUmbracoForm<UmbracoMembers.Controllers.MemberValidateSurfaceController>("MemberValidate", "MemberValidateSurface"))
+{
+    <div class="controls">
+		<p>@TempData["Status"]</p>
+        <p><a href="/account/login">Login</a></p>
+    </div>
+}

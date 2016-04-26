@@ -1,0 +1,12 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Register>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}<div id="main-container">
+    <div id="main" class="wrapper clearfix">
+        <section>
+            @(Model.Content.GetPropertyValue<HtmlString>("bodyContent"))
+			@Html.Action("MemberRegisterRenderForm", "MemberRegisterSurface")
+        </section>  
+    </div> <!-- #main -->
+</div> <!-- #main-container -->

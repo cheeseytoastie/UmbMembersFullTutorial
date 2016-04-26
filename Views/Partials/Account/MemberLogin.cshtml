@@ -1,0 +1,44 @@
+﻿@model UmbracoMembers.Models.MemberLoginModel
+
+@if (User.Identity.IsAuthenticated)
+{
+    var redirectUrl = (string)HttpContext.Current.Session["redirectURL"];
+
+    var currentUrl = HttpContext.Current.Request.Url.ToString();
+    if (HttpContext.Current.Session["redirectURL"] != null)
+    {
+        // clear the session variable for future logins
+        HttpContext.Current.Session["redirectURL"] = null;
+        HttpContext.Current.Response.Redirect(redirectUrl);
+    }
+    else
+    {
+        // Nothing in the session so we will go home 
+        HttpContext.Current.Response.Redirect("/");
+    }
+}
+else
+{
+    using (Html.BeginUmbracoForm<UmbracoMembers.Controllers.MemberLoginSurfaceController>("MemberLogin"))
+    {
+        <div class="controls controls-row">
+            @Html.LabelFor(m => m.Email, "Enter Your Email / Username: ", new { @name = "usernameLbl", @class="frmLabel" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "email", placeholder = "Email / Username" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+        <div class="controls controls-row">
+            @Html.LabelFor(m => m.Password, "Enter Your Password: ", new { @name = "passwordLbl", @class = "frmLabel" })
+            @Html.PasswordFor(m => m.Password, new { @class = "password", placeholder = "Password" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div class="controls controls-row">
+            @Html.LabelFor(m => m.RememberMe, "Remember these details? ", new { @name = "remembermeLbl", @class = "frmLabel" })
+            @Html.CheckBoxFor(m => m.RememberMe)
+            @Html.ValidationMessageFor(m => m.RememberMe)
+        </div>
+        <div class="controls">
+            <button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Login</button>
+            <p>@TempData["Status"]</p>
+        </div>
+    }
+}

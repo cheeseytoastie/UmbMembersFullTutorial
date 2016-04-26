@@ -1,0 +1,60 @@
+﻿@model UmbracoMembers.Models.MemberRegisterModel
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>You're already logged in: @User.Identity.Name</p>
+    <p><a href="/account/logout/">Log out</a></p>
+}
+else
+{
+    if (@TempData["Success"] == null)
+    {
+        using (Html.BeginUmbracoForm<UmbracoMembers.Controllers.MemberRegisterSurfaceController>("MemberRegister", "MemberRegister"))
+        {
+            <h2>Register Here!</h2>
+            <div class="controls controls-row">
+                @Html.LabelFor(m => m.FirstName, "Enter Your First Name: ", new { @name = "usernameLbl", @class = "frmLabel" })
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "firstname", placeholder = "First Name" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+            <div class="controls controls-row">
+                @Html.LabelFor(m => m.LastName, "Enter Your Last Name: ", new { @name = "usernameLbl", @class = "frmLabel" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "lastname", placeholder = "Last Name" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+            <div class="controls controls-row">
+                @Html.LabelFor(m => m.Email, "Enter Your Email: ", new { @name = "emailLbl", @class = "frmLabel" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "email", placeholder = "Email" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="controls controls-row">
+                @Html.LabelFor(m => m.Password, "Enter Your Password: ", new { @name = "passwordLbl", @class = "frmLabel" })
+                @Html.PasswordFor(m => m.Password, new { @class = "password", placeholder = "Password" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            <div class="controls controls-row">
+                @Html.LabelFor(m => m.Password2, "Re-enter Your Password: ", new { @name = "passwordLbl", @class = "frmLabel" })
+                @Html.PasswordFor(m => m.Password2, new { @class = "password", placeholder = "Re-enter your Password" })
+                @Html.ValidationMessageFor(m => m.Password2)
+            </div>
+            <div class="controls controls-row">
+                @Html.LabelFor(m => m.MailingListInclude, "Check if you'd like to join our mailing list:", new { @name = "remembermeLbl", @class = "frmLabel" })
+                @Html.CheckBoxFor(m => m.MailingListInclude)
+                @Html.ValidationMessageFor(m => m.MailingListInclude)
+            </div>
+                @*Html.EditorFor(x => Model)*@
+
+            <div class="controls">
+                <button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Register</button>
+                <p>@TempData["Status"]</p>
+            </div>
+        }
+    }
+    else   
+    { 
+     <div class="controls">
+            <p>@Html.Raw(@TempData["Status"])</p>
+    </div>
+    } 
+}
