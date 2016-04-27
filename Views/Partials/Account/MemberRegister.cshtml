@@ -12,6 +12,8 @@ else
     {
         using (Html.BeginUmbracoForm<UmbracoMembers.Controllers.MemberRegisterSurfaceController>("MemberRegister", "MemberRegister"))
         {
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
             <h2>Register Here!</h2>
             <div class="controls controls-row">
                 @Html.LabelFor(m => m.FirstName, "Enter Your First Name: ", new { @name = "usernameLbl", @class = "frmLabel" })

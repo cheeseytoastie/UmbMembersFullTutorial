@@ -23,6 +23,7 @@ namespace UmbracoMembers.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken()]
         [ActionName("MemberRegister")]
         public ActionResult MemberRegisterForm(MemberRegisterModel model)
         {

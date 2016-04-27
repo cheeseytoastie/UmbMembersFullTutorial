@@ -18,7 +18,7 @@ namespace UmbracoMembers.Helpers
         public static bool SendEmail(string EmailTemplateName, string FromEmail, string ToEmail, Dictionary<string, string> EmailFields)
         {
             // get the email master outer template
-            int siteSettingsID = 1074;
+            int siteSettingsID = 1098;
             var uh = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
             var siteSettingsNode = uh.TypedContent(siteSettingsID);
             string emailMasterTemplate = siteSettingsNode.GetPropertyValue<string>("emailMasterTemplate");

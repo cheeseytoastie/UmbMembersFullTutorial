@@ -50,6 +50,7 @@ namespace UmbracoMembers.Controllers
 
         // The MemberLoginPost Action checks the entered credentials using the member Umbraco stuff and redirects the user to the same page. Either as logged in, or with a message set in the TempData dictionary:
         [HttpPost]
+        [ValidateAntiForgeryToken()]
         [ActionName("MemberLogin")]
         public ActionResult MemberLoginPost(MemberLoginModel model)
         {

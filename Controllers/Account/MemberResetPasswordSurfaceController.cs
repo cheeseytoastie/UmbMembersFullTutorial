@@ -27,6 +27,7 @@ namespace UmbracoMembers.Controllers
 
         // The MemberResetPasswordPost Action checks the email address supplied, if found sets a guid, expiry time and sends an email link
         [HttpPost]
+        [ValidateAntiForgeryToken()]
         [ActionName("MemberResetPassword")]
         public ActionResult MemberResetPasswordPost(MemberResetPasswordModel model)
         {
@@ -115,6 +116,7 @@ namespace UmbracoMembers.Controllers
 
         // The MemberResetPasswordSetPost Action sets the new password
         [HttpPost]
+        [ValidateAntiForgeryToken()]
         [ActionName("MemberResetPasswordSet")]
         public ActionResult MemberResetPasswordSetPost(MemberResetPasswordSetModel model)
         {

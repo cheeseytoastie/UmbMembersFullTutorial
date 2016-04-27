@@ -13,7 +13,7 @@
     }
     else
     {
-        // Nothing in the session so we will go home 
+        // Nothing in the session so we will go home
         HttpContext.Current.Response.Redirect("/");
     }
 }
@@ -21,6 +21,8 @@ else
 {
     using (Html.BeginUmbracoForm<UmbracoMembers.Controllers.MemberLoginSurfaceController>("MemberLogin"))
     {
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
         <div class="controls controls-row">
             @Html.LabelFor(m => m.Email, "Enter Your Email / Username: ", new { @name = "usernameLbl", @class="frmLabel" })
             @Html.TextBoxFor(m => m.Email, new { @class = "email", placeholder = "Email / Username" })
