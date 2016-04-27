@@ -1,0 +1,63 @@
+﻿@model UmbracoMembers.Models.MemberRegisterModel
+@using Umbraco.Web
+
+@{
+    var memberShipHelper = new Umbraco.Web.Security.MembershipHelper(Umbraco.Web.UmbracoContext.Current);
+    var curMember = memberShipHelper.GetCurrentMemberProfileModel();
+
+    if (curMember == null)
+    {
+        <p>You need to be <a href="/account/login/">logged in.</a></p>
+    }
+    else
+    {
+        <p>Logged as in: @(curMember.UserName)</p>
+        if (@TempData["Success"] == null)
+        {
+            using (Html.BeginUmbracoForm<UmbracoMembers.Controllers.MemberEditProfileSurfaceController>("MemberEditProfile", "MemberEditProfile"))
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <h2>Update Your Profile Here</h2>
+                <div class="controls controls-row">
+                    @Html.LabelFor(m => m.FirstName, "Enter Your First Name: ", new { @name = "usernameLbl", @class = "frmLabel" })
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "firstname", placeholder = "First Name" })
+                    @Html.ValidationMessageFor(m => m.FirstName)
+                </div>
+                <div class="controls controls-row">
+                    @Html.LabelFor(m => m.LastName, "Enter Your Last Name: ", new { @name = "usernameLbl", @class = "frmLabel" })
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "lastname", placeholder = "Last Name" })
+                    @Html.ValidationMessageFor(m => m.LastName)
+                </div>
+                <div class="controls controls-row">
+                    @Html.LabelFor(m => m.MailingListInclude, "Check if you'd like to join our mailing list:", new { @name = "remembermeLbl", @class = "frmLabel" })
+                    @Html.CheckBoxFor(m => m.MailingListInclude)
+                    @Html.ValidationMessageFor(m => m.MailingListInclude)
+                </div>
+                <hr />
+                <h4>If you'd like to change your password you can do this below, or leave these fields blank to retain the current one.</h4>
+                <div class="controls controls-row">
+                    @Html.LabelFor(m => m.Password, "Enter Your New Password: ", new { @name = "passwordLbl", @class = "frmLabel" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "password", placeholder = "New password" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+                <div class="controls controls-row">
+                    @Html.LabelFor(m => m.Password2, "Enter Your New Password Again: ", new { @name = "passwordLbl", @class = "frmLabel" })
+                    @Html.PasswordFor(m => m.Password2, new { @class = "password", placeholder = "Repeat your new password" })
+                    @Html.ValidationMessageFor(m => m.Password2)
+                </div>
+                <hr/>
+                <div class="controls">
+                    <button id="contact-submit" type="submit" class="btn btn-primary input-medium pull-right">Update Profile</button>
+                    <p>@TempData["Status"]</p>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="controls">
+                <p>@Html.Raw(@TempData["Status"])</p>
+            </div>
+        }
+    }
+}
