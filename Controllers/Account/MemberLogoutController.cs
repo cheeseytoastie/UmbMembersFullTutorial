@@ -20,8 +20,7 @@ namespace UmbracoMembers.Controllers
         {
             // clear the session redirect variable for future logins
             HttpContext.Session["redirectURL"] = null;
-            Session.Clear();
-            FormsAuthentication.SignOut();
+            Members.Logout();
             return Redirect("/");
         }
     }
