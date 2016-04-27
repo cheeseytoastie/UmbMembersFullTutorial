@@ -69,8 +69,6 @@ namespace UmbracoMembers.Controllers
                     // helper method on Members to login
                     if (Members.Login(model.Email, model.Password))
                     {
-                        // does this work?
-                        FormsAuthentication.SetAuthCookie(model.Email, model.RememberMe);
                         return RedirectToCurrentUmbracoPage();
                     }
                     else
