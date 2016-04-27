@@ -32,14 +32,28 @@ namespace UmbracoMembers.Controllers
 
                 // Recommend to use the member's email as a username so we only need to check this here - if you've got legacy users with other user names you'll
 				// need to change this.
-                if (memberService.GetByEmail(model.Email) != null)
+                if (MemberHelper.EmailIsInUse(model.Email))
                 {
-					// Here's the question - should you expose that an email address is in use already? This allows for phishing etc... how else to tell a user
-					// the reason they can't complete the registration is, well, because they are already registered! 
-					// for security you should probably send them an email at this point with a link to reset their password if need be saying they are 
-					// already registered 
-					// See https://www.troyhunt.com/everything-you-ever-wanted-to-know/
-                    TempData["Status"] = "Email is already in use - if you've forgotten your password or lost the account validation email please use the reset password functionality to recover your account.";
+                    var curMember = memberService.GetByEmail(model.Email);
+                    // Here's the question - should you expose that an email address is in use already? This allows for phishing etc... how else to tell a user
+                    // the reason they can't complete the registration is, well, because they are already registered! 
+                    // for security you should probably send them an email at this point with a link to reset their password if need be saying they are 
+                    // already registered 
+                    // See https://www.troyhunt.com/everything-you-ever-wanted-to-know/
+                    // Set up the info for the already registered email
+                    Dictionary<string, string> alreadyemailFields = new Dictionary<string, string>
+                    {
+                        {"FIRSTNAME", curMember.GetValue<string>("firstname")},
+                        {"EMAIL", model.Email},
+                        {"DOMAIN", HttpContext.Request.Url.Authority}
+                    };
+
+                    // Send the validation email
+                    bool alreadyEmailSent = EmailHelper.SendEmail("Already Registered", "info@domain.com", model.Email, alreadyemailFields);
+
+                    // send back the same status regardless for security
+                    TempData["Status"] = "Your account has been created, before logging in please check your email and click on the list to valdiate your account and complete the registration process.";
+                    //TempData["Status"] = "Email is already in use - if you've forgotten your password or lost the account validation email please use the reset password functionality to recover your account.";
                     return CurrentUmbracoPage();
                 }
 
