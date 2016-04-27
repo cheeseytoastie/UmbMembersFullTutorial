@@ -30,9 +30,15 @@ namespace UmbracoMembers.Controllers
             {
                 var memberService = Services.MemberService;
 
-                // Umbraco now uses the email as the members username so we only need to check this
+                // Recommend to use the member's email as a username so we only need to check this here - if you've got legacy users with other user names you'll
+				// need to change this.
                 if (memberService.GetByEmail(model.Email) != null)
                 {
+					// Here's the question - should you expose that an email address is in use already? This allows for phishing etc... how else to tell a user
+					// the reason they can't complete the registration is, well, because they are already registered! 
+					// for security you should probably send them an email at this point with a link to reset their password if need be saying they are 
+					// already registered 
+					// See https://www.troyhunt.com/everything-you-ever-wanted-to-know/
                     TempData["Status"] = "Email is already in use - if you've forgotten your password or lost the account validation email please use the reset password functionality to recover your account.";
                     return CurrentUmbracoPage();
                 }
@@ -86,7 +92,7 @@ namespace UmbracoMembers.Controllers
                 //TempData["Status"] = "Member created! Test validate url = <a href=\"" + validateURL + "\">" + validateURL + "</a>";
 
                 TempData["Success"] = emailSent;
-                TempData["Status"] = "Your account has been created, before logging in please check your email and click on the list to valdiate your account and complete the registration process. ";
+                TempData["Status"] = "Your account has been created, before logging in please check your email and click on the list to valdiate your account and complete the registration process.";
                 return RedirectToCurrentUmbracoPage();
             }
             else
