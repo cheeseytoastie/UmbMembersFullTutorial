@@ -134,7 +134,8 @@ namespace UmbracoMembers.Controllers
                     {
                         member.IsLockedOut = false;  // if the user has tried repeatedly they might have locked their account
                         member.SetValue("validateGUIDExpiry", DateTime.Now.AddHours(-1));
-                        
+                        member.IsApproved = true; // depending on your security rules this might not be right for you. 
+
                         // remember to save
                         memberService.Save(member);
 

@@ -37,7 +37,7 @@ namespace UmbracoMembers.Controllers
             // in MVC we won't have "/umbraco/RenderMvc" but I leave this in here just in case
             if (HttpContext.Request.Url != null && HttpContext.Request.Url.AbsolutePath.ToString() != "/umbraco/RenderMvc" && HttpContext.Session["redirectURL"] == null)
             {
-                if (checkUrl.ToLower() != membersLoginUrl)
+                if (checkUrl.ToLower() != membersLoginUrl && checkUrl.ToLower() != "/login/")
                 {
                     HttpContext.Session["redirectURL"] = HttpContext.Request.Url.ToString();
                 }
@@ -70,7 +70,11 @@ namespace UmbracoMembers.Controllers
                     // helper method on Members to login
                     if (Members.Login(model.Email, model.Password))
                     {
-                        return RedirectToCurrentUmbracoPage();
+                        if (HttpContext.Session["redirectURL"] != null)
+                        {
+                            return Redirect(HttpContext.Session["redirectURL"].ToString());
+                        }
+                        return Redirect("/");
                     }
                     else
                     {
